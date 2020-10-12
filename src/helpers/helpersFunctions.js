@@ -13,12 +13,20 @@ export function arrayEquals(a, b) {
     );
 }
 
-export function formatInputValue(selectedItems, isTimeInput) {
+export function formatInputValue(
+    selectedItems,
+    isTimeInput,
+    numberOfInputsToDisplay
+) {
     if (!isTimeInput) {
         const inputLength = selectedItems.length;
-        if (inputLength < 3) return selectedItems.join(', ');
-        const selectedLeft = inputLength - 2;
-        const displayedValues = selectedItems.slice(0, 2).join(', ');
+        if (inputLength <= numberOfInputsToDisplay)
+            return selectedItems.join(', ');
+        const selectedLeft = inputLength - numberOfInputsToDisplay;
+        console.log('selectedLeft: ', selectedLeft);
+        const displayedValues = selectedItems
+            .slice(0, numberOfInputsToDisplay)
+            .join(', ');
         return `${displayedValues} + ${selectedLeft}`;
     } else {
         const { startDate, endDate } = selectedItems;

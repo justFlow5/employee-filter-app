@@ -41,13 +41,13 @@ const IconHolder = styled.label`
         position: relative;
         width: 70%;
         height: 70%;
-        transition: all 0.3s;
     }
 `;
 
 const Person = styled.label`
     font-size: 17px;
     cursor: pointer;
+    width: 100%;
 `;
 
 const Checkbox = ({ label, handleInputChange, value, id, checked }) => {
@@ -56,22 +56,20 @@ const Checkbox = ({ label, handleInputChange, value, id, checked }) => {
     };
 
     return (
-        <>
-            <CheckboxContainer>
-                <Input
-                    type="checkbox"
-                    className={checked && 'checked'}
-                    id={id}
-                    value={value}
-                    checked={checked}
-                    onChange={handleCheck}
-                />{' '}
-                <IconHolder htmlFor={id}>
-                    <CheckIcon />
-                </IconHolder>{' '}
-                <Person htmlFor={id}>{label}</Person>
-            </CheckboxContainer>
-        </>
+        <CheckboxContainer>
+            <Input
+                type="checkbox"
+                className={checked && 'checked'}
+                id={id}
+                value={value}
+                checked={checked}
+                onChange={handleCheck}
+            />{' '}
+            <IconHolder htmlFor={id}>
+                <CheckIcon />
+            </IconHolder>{' '}
+            <Person htmlFor={id}>{label}</Person>
+        </CheckboxContainer>
     );
 };
 

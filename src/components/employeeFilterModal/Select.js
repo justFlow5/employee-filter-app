@@ -29,14 +29,14 @@ const DropDownList = styled('ul')`
     position: absolute;
     width: 100%;
     z-index: 100;
-    max-height: 150px;
+    max-height: 160px;
 
     overflow-y: scroll;
     border: 1px solid #d0d0d0;
     opacity: ${(props) => (props.isReady ? 1 : 0)};
     transition: opacity 0.3s;
     &::-webkit-scrollbar {
-        width: 10px;
+        width: 7px;
     }
     &::-webkit-scrollbar-track {
         background: #f1f1f1;
@@ -54,17 +54,19 @@ const ListItem = styled('li')`
     width: 100%;
     list-style: none;
     background-color: #fff;
-    border-bottom: 1px solid #bebebe;
+    border-bottom: 1px solid #e8e8e8;
     height: 40px;
-    padding: 15px 5px;
+    padding: 15px 0;
     display: flex;
     align-items: center;
+    opacity: ${(props) => (props.isOpen ? 0 : 1)};
     transition: opacity 0.3s;
     &:last-child {
         border-bottom: none;
     }
-
-    opacity: ${(props) => (props.isOpen ? 0 : 1)};
+    &.selectAll {
+        border-width: 3px;
+    }
 `;
 
 export default function Select({
@@ -90,7 +92,7 @@ export default function Select({
     const renderSelectAllCheckbox = () => {
         if (type === 'pracownicy' && items.length > 0) {
             return (
-                <ListItem>
+                <ListItem className="selectAll">
                     <Checkbox
                         label="Wszyscy"
                         handleInputChange={selectAll}
@@ -110,7 +112,7 @@ export default function Select({
         if (checked) {
             selectedFilters = [...selectedData, checkedValue];
         } else {
-            selectedFilters = selectedFilters.filter(
+            selectedFilters = selectedData.filter(
                 (selectedFilter) => selectedFilter !== checkedValue
             );
         }

@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { formatInputValue } from '../../helpers/helpersFunctions';
+import { device } from '../../styles/mediaQuery';
+import { useWindowsSize } from '../../customHooks/useWindowsSize';
 
 const FormField = styled('div')`
     display: block;
     margin-bottom: 16px;
     width: 100%;
     position: relative;
-    z-index: 0;
+    cursor: pointer;
 
     &.isActive {
         & > .control {
@@ -81,9 +83,11 @@ const FormFieldLabel = styled('label')`
     transition: all 0.4s;
     width: 100%;
     text-transform: capitalize;
+    cursor: pointer;
 `;
 
 const FormFieldInput = styled('input')`
+    font-size: 16px;
     appearance: none;
     background: transparent;
     border: 0;
@@ -95,6 +99,17 @@ const FormFieldInput = styled('input')`
     outline: 0;
     padding: 0 12px 5px 12px;
     width: 100%;
+
+    @media ${device.mobileL} {
+        font-size: 17px;
+    }
+    @media ${device.tablet} {
+        font-size: 18px;
+    }
+
+    @media ${device.desktop} {
+        font-size: 20px;
+    }
 `;
 
 const TextField = ({
@@ -107,14 +122,23 @@ const TextField = ({
 }) => {
     const [isActive, setIsActive] = useState('');
     const [isFilled, setIsFilled] = useState('');
+    const [numberOfInputs, setNumberOfInputs] = useState(1);
     const inputRef = useRef();
+    const [width, height] = useWindowsSize();
+
+    useEffect(() => {
+        if (width < 600) setNumberOfInputs(1);
+        else if (width < 1900) setNumberOfInputs(2);
+        else setNumberOfInputs(3);
+    }, [width, height]);
 
     useEffect(() => {
         if (!clickedOutside && isAllFiltersFilled) setIsActive('isActive');
         else setIsActive('');
-    }, [clickedOutside]);
+    }, [clickedOutside, isAllFiltersFilled]);
 
     useEffect(() => {
+        // console.log('seeel data: ', selectedData, ' label ', labelText);
         inputRef.current.value.length > 0
             ? setIsFilled('isFilled')
             : setIsFilled('');
@@ -130,7 +154,11 @@ const TextField = ({
                 <FormFieldLabel htmlFor={id}>{labelText}</FormFieldLabel>
                 <FormFieldInput
                     id={id}
-                    value={formatInputValue(selectedData, isTimeInput)}
+                    value={formatInputValue(
+                        selectedData,
+                        isTimeInput,
+                        numberOfInputs
+                    )}
                     readOnly={true}
                     ref={inputRef}
                 />

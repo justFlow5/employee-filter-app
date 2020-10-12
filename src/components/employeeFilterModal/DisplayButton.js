@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import { device } from '../../styles/mediaQuery';
 
 const Button = styled.button`
     position: relative;
-    font-size: 15px;
+    font-size: 14px;
     width: 120px;
-    height: 30px;
     color: ${(props) => props.theme.colors.bgSecondary};
     background: ${(props) => props.theme.colors.primary};
     text-align: center;
     text-transform: uppercase;
     cursor: pointer;
-    padding: 6px 8px;
+    padding: 10px 8px;
     background: ${(props) =>
         props.isActive
             ? props.theme.colors.primary
@@ -19,7 +19,13 @@ const Button = styled.button`
     pointer-events: ${(props) => (props.isActive ? 'auto' : 'none')};
     letter-spacing: 1px;
     border: none;
+    margin-bottom: 10px;
+    font-size: 13px;
     transition: background 0.3s ease-in-out;
+
+    @media ${device.mobileM} {
+        font-size: 15px;
+    }
     &:focus {
         outline: none;
     }

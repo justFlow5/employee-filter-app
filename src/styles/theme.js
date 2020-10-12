@@ -11,7 +11,6 @@ const theme = {
         bgPrimary: '#f5f5f5',
         bgSecondary: '#ffffff',
     },
-    fontSizes: {},
 };
 
 const Theme = ({ children }) => (

@@ -26,24 +26,55 @@ const ModalContainer = styled.div`
 `;
 
 const Modal = styled.div`
+    width: 90%;
+    height: 90%;
     position: relative;
-    width: 30%;
-    height: 75%;
-    margin: 70px auto;
+    width: 90%;
+    margin: 30px auto;
     background-color: ${(props) => props.theme.colors.bgSecondary};
     display: flex;
     flex-direction: column;
     padding: 20px;
-
     -webkit-box-shadow: 0px 0px 28px -16px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px 0px 28px -16px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 28px -16px rgba(0, 0, 0, 0.75);
+    @media ${device.mobileM} {
+        height: 85%;
+        height: 75%;
+        margin: 40px auto;
+    }
+    @media ${device.mobileL} {
+        width: 70%;
+        height: 75%;
+        margin: 70px auto;
+    }
+
+    @media (min-width: 500px) {
+        width: 55%;
+        height: 80%;
+    }
+    @media ${device.tablet} {
+        width: 40%;
+    }
+
+    @media ${device.laptop} {
+        width: 30%;
+        padding: 20px;
+    }
+    @media ${device.desktop} {
+        width: 40%;
+    }
 `;
 
 const DateRangeWrapper = styled.div`
     position: relative;
-    width: 50%;
-    height: 60px;
+    min-height: 60px;
+    width: 65%;
+
+    @media ${device.mobileL} {
+        width: 50%;
+    }
+
     & .calendar-icon {
         width: 25px;
         height: 25px;
@@ -65,7 +96,7 @@ const SelectWrapper = styled.div`
 
     & > svg {
         margin-right: 20px;
-        fill: #000;
+        fill: ${(props) => props.theme.colors.black};
         position: absolute;
         right: 0;
         width: 15px;
@@ -77,8 +108,16 @@ const SelectWrapper = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-    width: 100%;
     text-align: right;
+    margin-top: auto;
+    position: relative;
+`;
+
+const ErrorText = styled.p`
+    font-size: 13px;
+    color: red;
+    text-align: left;
+    opacity: ${(props) => (props.isShown ? 1 : 0)};
 `;
 
 function Home({ config }) {
@@ -93,13 +132,17 @@ function Home({ config }) {
     const [isAllDataFilled, setIsAllDataFilled] = useState(false);
     const [isAllFiltersFilled, setIsAllFiltersFilled] = useState(false);
 
-    const [allSelected, setAllSelected] = useState(false);
-
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
     const [isConfirmed, setIsConfirmed] = useState(false);
 
+    const [isFeedback, setIsFeedback] = useState(false);
+
+    const checkFieldsState = () => {
+        if (!isAllFiltersFilled) setIsFeedback(true);
+        else setIsFeedback(false);
+    };
     const handleDateChange = (e, picker) => {
         if (picker) {
             setStartDate(picker.startDate.toISOString());
@@ -107,13 +150,13 @@ function Home({ config }) {
         }
     };
 
-    const [selectedFilters, setSelectedFilters] = React.useState({
+    const [selectedFilters, setSelectedFilters] = useState({
         stanowiska: [],
         'warunki zatrudnienia': [],
         lokalizacje: [],
     });
 
-    const [selectedPeople, setSelectedPeople] = React.useState([]);
+    const [selectedPeople, setSelectedPeople] = useState([]);
 
     const positionsFilters = ['kucharz', 'kelner', 'kierownik', 'sprzątaczka'];
 
@@ -187,6 +230,10 @@ function Home({ config }) {
     };
     const handleClickInside = () => setIsClickedOutside(false);
 
+    // const checkErrors = () => {
+    //     if
+    // }
+
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
         return () =>
@@ -200,6 +247,7 @@ function Home({ config }) {
     }, [selectedWorkers, startDate, endDate, isAllDataFilled]);
 
     useEffect(() => {
+        if (isAllFiltersFilled) setIsFeedback(false);
         if (
             selectedPositions.length > 0 &&
             selectedContractTypes.length > 0 &&
@@ -221,11 +269,10 @@ function Home({ config }) {
         selectedContractTypes,
         selectedLocations,
         isAllFiltersFilled,
+        selectedFilters,
+        workers,
     ]);
 
-    useEffect(() => {
-        console.log('HEY WORKERS: ', workers);
-    }, []);
     return (
         <>
             <ModalContainer>
@@ -261,6 +308,7 @@ function Home({ config }) {
                         />
                         <CaretIcon />
                     </SelectWrapper>
+
                     <SelectWrapper>
                         <Select
                             key={'obyoby'}
@@ -285,7 +333,7 @@ function Home({ config }) {
                         />
                         <CaretIcon />
                     </SelectWrapper>
-                    <SelectWrapper>
+                    <SelectWrapper onClick={() => checkFieldsState()}>
                         <Select
                             key={'jesione2'}
                             id={'jesione2'}
@@ -294,12 +342,14 @@ function Home({ config }) {
                             selectedData={selectedWorkers}
                             setSelectedData={setSelectedWorkers}
                             type="pracownicy"
-                            allSelected={allSelected}
                             selectAll={selectAll}
                             isAllFiltersFilled={isAllFiltersFilled}
                         />
                         <CaretIcon />
                     </SelectWrapper>
+                    <ErrorText isShown={isFeedback}>
+                        All fields must be filled
+                    </ErrorText>
                     <ButtonWrapper>
                         <DisplayButton
                             title="wyświetl"
