@@ -1,21 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
-import TextInput from '../components/inputs/TextField';
 import DateRangePicker from '../components/inputs/dateRangePicker/DateRangePicker';
-
+import DisplayButton from '../components/employeeFilterModal/DisplayButton';
 import Header from '../components/employeeFilterModal/Header';
+import ResultView from '../components/employeeFilterModal/ResultView';
+import Select from '../components/employeeFilterModal/Select';
+import TextInput from '../components/inputs/TextField';
+
 import CalendarIcon from '../icons/Calendar';
 import CaretIcon from '../icons/Caret';
-
-import Select from '../components/employeeFilterModal/Select';
 import { arrayEquals } from '../helpers/helpersFunctions';
-
 import { device } from '../styles/mediaQuery';
-
-import DisplayButton from '../components/employeeFilterModal/DisplayButton';
-
-import ResultView from '../components/employeeFilterModal/ResultView';
 
 const ModalContainer = styled.div`
     width: 100%;
@@ -295,8 +291,6 @@ function Home({ config }) {
                     </DateRangeWrapper>
                     <SelectWrapper>
                         <Select
-                            key={'abc123'}
-                            id={'abc123'}
                             items={positionsFilters}
                             type="stanowiska"
                             updateFilters={updateFilters}
@@ -308,8 +302,6 @@ function Home({ config }) {
 
                     <SelectWrapper>
                         <Select
-                            key={'obyoby'}
-                            id={'obyoby'}
                             items={contractTypesFitlers}
                             type="warunki zatrudnienia"
                             updateFilters={updateFilters}
@@ -320,8 +312,6 @@ function Home({ config }) {
                     </SelectWrapper>
                     <SelectWrapper>
                         <Select
-                            key={'jesione'}
-                            id={'jesione'}
                             items={locationsFilters}
                             type="lokalizacje"
                             updateFilters={updateFilters}
@@ -332,8 +322,6 @@ function Home({ config }) {
                     </SelectWrapper>
                     <SelectWrapper onClick={() => checkFieldsState()}>
                         <Select
-                            key={'jesione2'}
-                            id={'jesione2'}
                             items={filteredWorkers}
                             updateFilters={updateFilters}
                             selectedData={selectedWorkers}

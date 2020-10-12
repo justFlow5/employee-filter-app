@@ -23,7 +23,6 @@ export function formatInputValue(
         if (inputLength <= numberOfInputsToDisplay)
             return selectedItems.join(', ');
         const selectedLeft = inputLength - numberOfInputsToDisplay;
-        console.log('selectedLeft: ', selectedLeft);
         const displayedValues = selectedItems
             .slice(0, numberOfInputsToDisplay)
             .join(', ');

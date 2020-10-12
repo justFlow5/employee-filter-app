@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { device } from '../../styles/mediaQuery';
-import moment from 'moment';
+import { formatDate } from '../../helpers/helpersFunctions';
 
 const Modal = styled.div`
     position: fixed;
@@ -85,15 +85,13 @@ const Back = styled.span`
 `;
 
 const ResultModal = ({ timeRange, workers, isConfirmed, setIsConfirmed }) => {
-    const formatDate = (date) => {
-        return moment(date).format('DD-MM-YYYY');
-    };
     return (
         <Modal isConfirmed={isConfirmed}>
             <Header>wybrani pracownicy</Header>
-            <SubHeader>{`${formatDate(timeRange.startDate)}/${formatDate(
-                timeRange.endDate
-            )}`}</SubHeader>
+            <SubHeader>{`${formatDate(
+                timeRange.startDate,
+                'DD-MM-YYYY'
+            )}/${formatDate(timeRange.endDate, 'DD-MM-YYYY')}`}</SubHeader>
             <ul>
                 {workers.map((worker, index) => {
                     return (

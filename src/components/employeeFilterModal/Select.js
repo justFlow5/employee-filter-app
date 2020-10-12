@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
+
 import Checkbox from '../inputs/Checkbox';
 import TextField from '../inputs/TextField';
 import { arrayEquals } from '../../helpers/helpersFunctions';
@@ -74,7 +76,6 @@ export default function Select({
     updateFilters,
     selectedData,
     setSelectedData,
-    id,
     type,
     selectAll,
     isAllFiltersFilled = true,
@@ -98,7 +99,7 @@ export default function Select({
                         handleInputChange={selectAll}
                         value={items}
                         checked={arrayEquals(selectedData, items)}
-                        id={Math.random()}
+                        id={uuidv4()}
                     />
                 </ListItem>
             );
@@ -136,7 +137,7 @@ export default function Select({
                 <TextField
                     selectedData={selectedData}
                     clickedOutside={clickedOutside}
-                    id={id}
+                    id={uuidv4()}
                     labelText={type}
                     isAllFiltersFilled={isAllFiltersFilled}
                 />
@@ -146,11 +147,13 @@ export default function Select({
                 <DropDownListContainer>
                     <DropDownList isReady={items.length > 0}>
                         {renderSelectAllCheckbox()}
-                        {items.map((item, index) => {
+                        {items.map((item) => {
+                            const id = uuidv4();
+                            const id2 = uuidv4();
                             return (
                                 <ListItem
                                     isOpen={clickedOutside}
-                                    key={Math.random()}
+                                    key={id}
                                     id={id}
                                 >
                                     <Checkbox
@@ -158,7 +161,7 @@ export default function Select({
                                         handleInputChange={handleInputChange}
                                         value={item}
                                         checked={selectedData.includes(item)}
-                                        id={item + '_' + index}
+                                        id={id2}
                                     />
                                 </ListItem>
                             );
