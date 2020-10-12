@@ -4,10 +4,9 @@ import styled from 'styled-components';
 const HeaderContainer = styled.header`
     position: relative;
     font-size: 24px;
-    color: #000000;
+    color: ${(props) => props.theme.colors.black};
     text-align: left;
     margin-bottom: 20px;
-
 `;
 
 function Header({ title }) {

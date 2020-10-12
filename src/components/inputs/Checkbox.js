@@ -11,11 +11,11 @@ const CheckboxContainer = styled.div`
 const Input = styled.input`
     visibility: hidden;
     &.checked + label {
-        background: #fff;
-        border: 1px solid #d3d3d3;
+        background: ${(props) => props.theme.colors.secondary};
+        border: 1px solid ${(props) => props.theme.colors.bgPrimary};
 
         & > svg {
-            fill: #ff6b01;
+            fill: ${(props) => props.theme.colors.primary};
         }
     }
 `;
@@ -28,16 +28,16 @@ const IconHolder = styled.label`
     align-items: center;
     width: 20px;
     height: 20px;
-    border: 1px solid #d3d3d3;
+    border: 1px solid ${(props) => props.theme.colors.secondary};
     border-radius: 4px;
     margin-right: 10px;
-    background: #fff;
+    background: ${(props) => props.theme.colors.bgSecondary};
     transition: all 0.3s;
     &:hover {
-        border: 1px solid #ff6b01;
+        border: 1px solid ${(props) => props.theme.colors.primary};
     }
     & > svg {
-        fill: #fff;
+        fill: ${(props) => props.theme.colors.bgSecondary};
         position: relative;
         width: 70%;
         height: 70%;
@@ -52,7 +52,6 @@ const Person = styled.label`
 
 const Checkbox = ({ label, handleInputChange, value, id, checked }) => {
     const handleCheck = (e) => {
-        console.log(e.target.checked);
         handleInputChange(e);
     };
 
