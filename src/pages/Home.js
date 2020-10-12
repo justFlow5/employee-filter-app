@@ -125,9 +125,9 @@ function Home({ config }) {
     const [selectedPositions, setSelectedPositions] = useState([]);
     const [selectedContractTypes, setSelectedContractTypes] = useState([]);
     const [selectedLocations, setSelectedLocations] = useState([]);
-
-    // Gets all checked workers
     const [selectedWorkers, setSelectedWorkers] = useState([]);
+
+    const [filteredWorkers, setFilteredWorkers] = useState([]);
 
     const [isAllDataFilled, setIsAllDataFilled] = useState(false);
     const [isAllFiltersFilled, setIsAllFiltersFilled] = useState(false);
@@ -155,8 +155,6 @@ function Home({ config }) {
         'warunki zatrudnienia': [],
         lokalizacje: [],
     });
-
-    const [selectedPeople, setSelectedPeople] = useState([]);
 
     const positionsFilters = ['kucharz', 'kelner', 'kierownik', 'sprzątaczka'];
 
@@ -189,8 +187,7 @@ function Home({ config }) {
     };
 
     // Returns all workers that fulfill given criteria
-    const getSelectedPeople = (defaultFilters, selectedFilters, workers) => {
-        console.log('workers: ', workers);
+    const getFilteredWorkers = (defaultFilters, selectedFilters, workers) => {
         const selected = workers
             .filter((worker) => {
                 //  iterate through each type of filter
@@ -217,7 +214,7 @@ function Home({ config }) {
                 return `${filteredWorker.imie} ${filteredWorker.nazwisko}`;
             });
 
-        setSelectedPeople(selected);
+        setFilteredWorkers(selected);
     };
 
     const [isClickedOutside, setIsClickedOutside] = useState(true);
@@ -254,14 +251,14 @@ function Home({ config }) {
             selectedLocations.length > 0
         ) {
             setIsAllFiltersFilled(true);
-            getSelectedPeople(
+            getFilteredWorkers(
                 ['stanowiska', 'warunki zatrudnienia', 'lokalizacje'],
                 selectedFilters,
                 workers
             );
         } else {
             setIsAllFiltersFilled(false);
-            setSelectedPeople([]);
+            setFilteredWorkers([]);
             setSelectedWorkers([]);
         }
     }, [
@@ -337,7 +334,7 @@ function Home({ config }) {
                         <Select
                             key={'jesione2'}
                             id={'jesione2'}
-                            items={selectedPeople}
+                            items={filteredWorkers}
                             updateFilters={updateFilters}
                             selectedData={selectedWorkers}
                             setSelectedData={setSelectedWorkers}
