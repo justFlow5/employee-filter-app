@@ -13,6 +13,10 @@ import { arrayEquals } from '../helpers/helpersFunctions';
 
 import { device } from '../styles/mediaQuery';
 
+import DisplayButton from '../components/employeeFilterModal/DisplayButton';
+
+import ResultView from '../components/employeeFilterModal/ResultView';
+
 const ModalContainer = styled.div`
     width: 100%;
     height: 100%;
@@ -70,6 +74,11 @@ const SelectWrapper = styled.div`
         top: 50%;
         transform: translateY(-50%);
     }
+`;
+
+const ButtonWrapper = styled.div`
+    width: 100%;
+    text-align: right;
 `;
 
 function Home({ config }) {
@@ -218,80 +227,95 @@ function Home({ config }) {
         console.log('HEY WORKERS: ', workers);
     }, []);
     return (
-        <ModalContainer>
-            <Modal>
-                <Header title="Wybierz pracowników" />
-                <DateRangeWrapper
-                    onClick={handleClickInside}
-                    ref={myRef}
-                    isActive={!isClickedOutside}
-                >
-                    <DateRangePicker
-                        handleDateChange={handleDateChange}
-                        startDate={startDate}
-                        endDate={endDate}
-                    />
-                    <CalendarIcon className={'calendar-icon'} />
-                    <TextInput
-                        selectedData={{ startDate, endDate }}
-                        isTimeInput={true}
-                        clickedOutside={isClickedOutside}
-                        labelText="okres"
-                    />
-                </DateRangeWrapper>
-                <SelectWrapper>
-                    <Select
-                        key={'abc123'}
-                        id={'abc123'}
-                        items={positionsFilters}
-                        type="stanowiska"
-                        updateFilters={updateFilters}
-                        selectedData={selectedPositions}
-                        setSelectedData={setSelectedPositions}
-                    />
-                    <CaretIcon />
-                </SelectWrapper>
-                <SelectWrapper>
-                    <Select
-                        key={'obyoby'}
-                        id={'obyoby'}
-                        items={contractTypesFitlers}
-                        type="warunki zatrudnienia"
-                        updateFilters={updateFilters}
-                        selectedData={selectedContractTypes}
-                        setSelectedData={setSelectedContractTypes}
-                    />
-                    <CaretIcon />
-                </SelectWrapper>
-                <SelectWrapper>
-                    <Select
-                        key={'jesione'}
-                        id={'jesione'}
-                        items={locationsFilters}
-                        type="lokalizacje"
-                        updateFilters={updateFilters}
-                        selectedData={selectedLocations}
-                        setSelectedData={setSelectedLocations}
-                    />
-                    <CaretIcon />
-                </SelectWrapper>
-                <SelectWrapper>
-                    <Select
-                        key={'jesione2'}
-                        id={'jesione2'}
-                        items={selectedPeople}
-                        updateFilters={updateFilters}
-                        selectedData={selectedWorkers}
-                        setSelectedData={setSelectedWorkers}
-                        type="pracownicy"
-                        allSelected={allSelected}
-                        selectAll={selectAll}
-                        isAllFiltersFilled={isAllFiltersFilled}
-                    />
-                    <CaretIcon />
-                </SelectWrapper>
-            </Modal>
-        </ModalContainer>
+        <>
+            <ModalContainer>
+                <Modal>
+                    <Header title="Wybierz pracowników" />
+                    <DateRangeWrapper
+                        onClick={handleClickInside}
+                        ref={myRef}
+                        isActive={!isClickedOutside}
+                    >
+                        <DateRangePicker
+                            handleDateChange={handleDateChange}
+                            startDate={startDate}
+                            endDate={endDate}
+                        />
+                        <CalendarIcon className={'calendar-icon'} />
+                        <TextInput
+                            selectedData={{ startDate, endDate }}
+                            isTimeInput={true}
+                            clickedOutside={isClickedOutside}
+                            labelText="okres"
+                        />
+                    </DateRangeWrapper>
+                    <SelectWrapper>
+                        <Select
+                            key={'abc123'}
+                            id={'abc123'}
+                            items={positionsFilters}
+                            type="stanowiska"
+                            updateFilters={updateFilters}
+                            selectedData={selectedPositions}
+                            setSelectedData={setSelectedPositions}
+                        />
+                        <CaretIcon />
+                    </SelectWrapper>
+                    <SelectWrapper>
+                        <Select
+                            key={'obyoby'}
+                            id={'obyoby'}
+                            items={contractTypesFitlers}
+                            type="warunki zatrudnienia"
+                            updateFilters={updateFilters}
+                            selectedData={selectedContractTypes}
+                            setSelectedData={setSelectedContractTypes}
+                        />
+                        <CaretIcon />
+                    </SelectWrapper>
+                    <SelectWrapper>
+                        <Select
+                            key={'jesione'}
+                            id={'jesione'}
+                            items={locationsFilters}
+                            type="lokalizacje"
+                            updateFilters={updateFilters}
+                            selectedData={selectedLocations}
+                            setSelectedData={setSelectedLocations}
+                        />
+                        <CaretIcon />
+                    </SelectWrapper>
+                    <SelectWrapper>
+                        <Select
+                            key={'jesione2'}
+                            id={'jesione2'}
+                            items={selectedPeople}
+                            updateFilters={updateFilters}
+                            selectedData={selectedWorkers}
+                            setSelectedData={setSelectedWorkers}
+                            type="pracownicy"
+                            allSelected={allSelected}
+                            selectAll={selectAll}
+                            isAllFiltersFilled={isAllFiltersFilled}
+                        />
+                        <CaretIcon />
+                    </SelectWrapper>
+                    <ButtonWrapper>
+                        <DisplayButton
+                            title="wyświetl"
+                            isActive={isAllDataFilled}
+                            setIsConfirmed={setIsConfirmed}
+                        />
+                    </ButtonWrapper>
+                </Modal>
+            </ModalContainer>
+            <ResultView
+                isConfirmed={isConfirmed}
+                setIsConfirmed={setIsConfirmed}
+                timeRange={{ startDate, endDate }}
+                workers={selectedWorkers}
+            />
+        </>
     );
 }
 

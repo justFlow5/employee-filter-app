@@ -11,8 +11,8 @@ const CheckboxContainer = styled.div`
 const Input = styled.input`
     visibility: hidden;
     &.checked + label {
-        background: ${(props) => props.theme.colors.secondary};
-        border: 1px solid ${(props) => props.theme.colors.bgPrimary};
+        background: ${(props) => props.theme.colors.bgSecondary};
+        border: 1px solid ${(props) => props.theme.colors.secondary};
 
         & > svg {
             fill: ${(props) => props.theme.colors.primary};

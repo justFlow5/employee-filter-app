@@ -30,6 +30,9 @@ const FormField = styled('div')`
             font-size: 0.75rem;
             transform: translateY(-14px);
         }
+        &.inactive label {
+            color: ${(props) => props.theme.colors.secondary};
+        }
     }
 
     &.timeType {
@@ -121,7 +124,7 @@ const TextField = ({
         <FormField
             className={`${isFilled} ${isActive} ${
                 isTimeInput ? 'timeType' : ''
-            } `}
+            } ${clickedOutside ? 'inactive' : ''} `}
         >
             <FormFieldControl className="control">
                 <FormFieldLabel htmlFor={id}>{labelText}</FormFieldLabel>
