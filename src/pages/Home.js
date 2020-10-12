@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
+import styled from 'styled-components';
 
 import TextInput from '../components/inputs/TextField';
 import DateRangePicker from '../components/inputs/dateRangePicker/DateRangePicker';
 
 import Header from '../components/employeeFilterModal/Header';
 import CalendarIcon from '../icons/Calendar';
-import styled from 'styled-components';
+import CaretIcon from '../icons/Caret';
+
+import Select from '../components/employeeFilterModal/Select';
+import { arrayEquals } from '../helpers/helpersFunctions';
 
 import { device } from '../styles/mediaQuery';
 
@@ -51,9 +55,118 @@ const DateRangeWrapper = styled.div`
     }
 `;
 
-function Home() {
+const SelectWrapper = styled.div`
+    width: 100%;
+    position: relative;
+
+    & > svg {
+        margin-right: 20px;
+        fill: #000;
+        position: absolute;
+        right: 0;
+        width: 15px;
+        height: 15px;
+        z-index: 2;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+`;
+
+function Home({ config }) {
+    const { workers } = config;
+    const [selectedPositions, setSelectedPositions] = useState([]);
+    const [selectedContractTypes, setSelectedContractTypes] = useState([]);
+    const [selectedLocations, setSelectedLocations] = useState([]);
+
+    // Gets all checked workers
+    const [selectedWorkers, setSelectedWorkers] = useState([]);
+
+    const [isAllDataFilled, setIsAllDataFilled] = useState(false);
+    const [isAllFiltersFilled, setIsAllFiltersFilled] = useState(false);
+
+    const [allSelected, setAllSelected] = useState(false);
+
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+
+    const [isConfirmed, setIsConfirmed] = useState(false);
+
+    const handleDateChange = (e, picker) => {
+        if (picker) {
+            setStartDate(picker.startDate.toISOString());
+            setEndDate(picker.endDate.toISOString());
+        }
+    };
+
+    const [selectedFilters, setSelectedFilters] = React.useState({
+        stanowiska: [],
+        'warunki zatrudnienia': [],
+        lokalizacje: [],
+    });
+
+    const [selectedPeople, setSelectedPeople] = React.useState([]);
+
+    const positionsFilters = ['kucharz', 'kelner', 'kierownik', 'sprzątaczka'];
+
+    const contractTypesFitlers = [
+        'umowa o pracę',
+        'umowa zlecenie',
+        'umowa o dzieło',
+    ];
+
+    const locationsFilters = [
+        'Arkady',
+        'Magnolia',
+        'Pasaż Grunwaldzki',
+        'Wroclavia',
+    ];
+
+    const selectAll = (e) => {
+        const selectAllCheckboxWorkers = e.target.value.split(',');
+        if (arrayEquals(selectAllCheckboxWorkers, selectedWorkers))
+            setSelectedWorkers([]);
+        else setSelectedWorkers(selectAllCheckboxWorkers);
+    };
+
+    const updateFilters = (filterType, filterContent) => {
+        setSelectedFilters((selectedFilters) => {
+            const selectedFilters__copy = { ...selectedFilters };
+            selectedFilters__copy[filterType] = filterContent;
+            return selectedFilters__copy;
+        });
+    };
+
+    // Returns all workers that fulfill given criteria
+    const getSelectedPeople = (defaultFilters, selectedFilters, workers) => {
+        console.log('workers: ', workers);
+        const selected = workers
+            .filter((worker) => {
+                //  iterate through each type of filter
+                return defaultFilters.every((filter) => {
+                    const workerFilterValue = worker[filter];
+                    const selectedFilterVal = selectedFilters[filter];
+
+                    if (
+                        Object.prototype.toString.call(workerFilterValue) ===
+                        '[object Array]'
+                    )
+                        //    if at least one selected filter's value matches worker's filter value - locations
+                        return selectedFilterVal.some((filterValue) =>
+                            workerFilterValue.includes(filterValue)
+                        );
+                    // workerFilterValue is a string - contract type and position
+                    else
+                        return selectedFilterVal.some(
+                            (filterValue) => filterValue === workerFilterValue
+                        );
+                });
+            })
+            .map((filteredWorker) => {
+                return `${filteredWorker.imie} ${filteredWorker.nazwisko}`;
+            });
+
+        setSelectedPeople(selected);
+    };
 
     const [isClickedOutside, setIsClickedOutside] = useState(true);
     const myRef = useRef();
@@ -65,24 +178,50 @@ function Home() {
     };
     const handleClickInside = () => setIsClickedOutside(false);
 
-    const handleDateChange = (e, picker) => {
-        if (picker) {
-            setStartDate(picker.startDate.toISOString());
-            setEndDate(picker.endDate.toISOString());
-        }
-    };
-
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
         return () =>
             document.removeEventListener('mousedown', handleClickOutside);
     });
 
+    useEffect(() => {
+        if (selectedWorkers.length > 0 && startDate && endDate)
+            setIsAllDataFilled(true);
+        else setIsAllDataFilled(false);
+    }, [selectedWorkers, startDate, endDate, isAllDataFilled]);
+
+    useEffect(() => {
+        if (
+            selectedPositions.length > 0 &&
+            selectedContractTypes.length > 0 &&
+            selectedLocations.length > 0
+        ) {
+            setIsAllFiltersFilled(true);
+            getSelectedPeople(
+                ['stanowiska', 'warunki zatrudnienia', 'lokalizacje'],
+                selectedFilters,
+                workers
+            );
+        } else {
+            setIsAllFiltersFilled(false);
+            setSelectedPeople([]);
+            setSelectedWorkers([]);
+        }
+    }, [
+        selectedPositions,
+        selectedContractTypes,
+        selectedLocations,
+        isAllFiltersFilled,
+    ]);
+
+    useEffect(() => {
+        console.log('HEY WORKERS: ', workers);
+    }, []);
     return (
         <ModalContainer>
             <Modal>
                 <Header title="Wybierz pracowników" />
-                {/* <DateRangeWrapper
+                <DateRangeWrapper
                     onClick={handleClickInside}
                     ref={myRef}
                     isActive={!isClickedOutside}
@@ -94,12 +233,63 @@ function Home() {
                     />
                     <CalendarIcon className={'calendar-icon'} />
                     <TextInput
-                        checkboxValues={{ startDate, endDate }}
+                        selectedData={{ startDate, endDate }}
                         isTimeInput={true}
                         clickedOutside={isClickedOutside}
                         labelText="okres"
                     />
-                </DateRangeWrapper> */}
+                </DateRangeWrapper>
+                <SelectWrapper>
+                    <Select
+                        key={'abc123'}
+                        id={'abc123'}
+                        items={positionsFilters}
+                        type="stanowiska"
+                        updateFilters={updateFilters}
+                        selectedData={selectedPositions}
+                        setSelectedData={setSelectedPositions}
+                    />
+                    <CaretIcon />
+                </SelectWrapper>
+                <SelectWrapper>
+                    <Select
+                        key={'obyoby'}
+                        id={'obyoby'}
+                        items={contractTypesFitlers}
+                        type="warunki zatrudnienia"
+                        updateFilters={updateFilters}
+                        selectedData={selectedContractTypes}
+                        setSelectedData={setSelectedContractTypes}
+                    />
+                    <CaretIcon />
+                </SelectWrapper>
+                <SelectWrapper>
+                    <Select
+                        key={'jesione'}
+                        id={'jesione'}
+                        items={locationsFilters}
+                        type="lokalizacje"
+                        updateFilters={updateFilters}
+                        selectedData={selectedLocations}
+                        setSelectedData={setSelectedLocations}
+                    />
+                    <CaretIcon />
+                </SelectWrapper>
+                <SelectWrapper>
+                    <Select
+                        key={'jesione2'}
+                        id={'jesione2'}
+                        items={selectedPeople}
+                        updateFilters={updateFilters}
+                        selectedData={selectedWorkers}
+                        setSelectedData={setSelectedWorkers}
+                        type="pracownicy"
+                        allSelected={allSelected}
+                        selectAll={selectAll}
+                        isAllFiltersFilled={isAllFiltersFilled}
+                    />
+                    <CaretIcon />
+                </SelectWrapper>
             </Modal>
         </ModalContainer>
     );

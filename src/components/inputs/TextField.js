@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import moment from 'moment';
+import { formatInputValue } from '../../helpers/helpersFunctions';
 
 const FormField = styled('div')`
     display: block;
@@ -102,25 +102,6 @@ const TextField = ({
     labelText,
     isAllFiltersFilled = true,
 }) => {
-    const formatDate = (date) => {
-        return moment(date).format('DD.MM');
-    };
-
-    const formatInputValue = (selectedItems) => {
-        if (!isTimeInput) {
-            const inputLength = selectedItems.length;
-            if (inputLength < 3) return selectedItems.join(', ');
-            const selectedLeft = inputLength - 2;
-            const displayedValues = selectedItems.slice(0, 2).join(', ');
-            return `${displayedValues} + ${selectedLeft}`;
-        } else {
-            const { startDate, endDate } = selectedItems;
-            if (startDate && endDate)
-                return `${formatDate(startDate)} - ${formatDate(endDate)}`;
-            else return '';
-        }
-    };
-
     const [isActive, setIsActive] = useState('');
     const [isFilled, setIsFilled] = useState('');
     const inputRef = useRef();
@@ -146,7 +127,7 @@ const TextField = ({
                 <FormFieldLabel htmlFor={id}>{labelText}</FormFieldLabel>
                 <FormFieldInput
                     id={id}
-                    value={formatInputValue(selectedData)}
+                    value={formatInputValue(selectedData, isTimeInput)}
                     readOnly={true}
                     ref={inputRef}
                 />

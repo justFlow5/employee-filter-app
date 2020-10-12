@@ -12,3 +12,21 @@ export function arrayEquals(a, b) {
         a.every((val, index) => val === b[index])
     );
 }
+
+export function formatInputValue(selectedItems, isTimeInput) {
+    if (!isTimeInput) {
+        const inputLength = selectedItems.length;
+        if (inputLength < 3) return selectedItems.join(', ');
+        const selectedLeft = inputLength - 2;
+        const displayedValues = selectedItems.slice(0, 2).join(', ');
+        return `${displayedValues} + ${selectedLeft}`;
+    } else {
+        const { startDate, endDate } = selectedItems;
+        if (startDate && endDate)
+            return `${formatDate(startDate, 'DD.MM')} - ${formatDate(
+                endDate,
+                'DD.MM'
+            )}`;
+        else return '';
+    }
+}
