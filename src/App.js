@@ -95,7 +95,8 @@ const config = {
 function App() {
     return (
         <Theme>
-            <ResetCss /> <Home config={config} />
+            <ResetCss />
+            <Home config={config} />
         </Theme>
     );
 }

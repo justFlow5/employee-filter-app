@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
 import Checkbox from '../inputs/Checkbox';
 import TextField from '../inputs/TextField';
 import { arrayEquals } from '../../helpers/helpersFunctions';
+import { useComponentVisible } from '../../customHooks/useComponentVisible';
 
 const DropDownContainer = styled('div')`
     width: 100%;
@@ -80,15 +81,11 @@ export default function Select({
     selectAll,
     isAllFiltersFilled = true,
 }) {
-    const [clickedOutside, setClickedOutside] = useState(true);
-    const myRef = useRef();
-
-    const handleClickOutside = (e) => {
-        if (!myRef.current.contains(e.target)) {
-            setClickedOutside(true);
-        }
-    };
-    const handleClickInside = () => setClickedOutside(false);
+    const {
+        ref,
+        isComponentVisible,
+        setIsComponentVisible,
+    } = useComponentVisible(false);
 
     const renderSelectAllCheckbox = () => {
         if (type === 'pracownicy' && items.length > 0) {
@@ -121,47 +118,36 @@ export default function Select({
         if (type !== 'pracownicy') updateFilters(type, selectedFilters);
     };
 
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () =>
-            document.removeEventListener('mousedown', handleClickOutside);
-    });
-
     return (
         <DropDownContainer
-            ref={myRef}
-            onClick={handleClickInside}
-            open={!clickedOutside && isAllFiltersFilled}
+            ref={ref}
+            onClick={() => setIsComponentVisible(true)}
+            open={isComponentVisible && isAllFiltersFilled}
         >
             <DropdownInputContainer>
                 <TextField
                     selectedData={selectedData}
-                    clickedOutside={clickedOutside}
+                    clickedOutside={!isComponentVisible}
                     id={uuidv4()}
                     labelText={type}
                     isAllFiltersFilled={isAllFiltersFilled}
                 />
             </DropdownInputContainer>
 
-            {!clickedOutside && (
+            {isComponentVisible && (
                 <DropDownListContainer>
                     <DropDownList isReady={items.length > 0}>
                         {renderSelectAllCheckbox()}
                         {items.map((item) => {
                             const id = uuidv4();
-                            const id2 = uuidv4();
                             return (
-                                <ListItem
-                                    isOpen={clickedOutside}
-                                    key={id}
-                                    id={id}
-                                >
+                                <ListItem isOpen={!isComponentVisible} key={id}>
                                     <Checkbox
                                         label={item}
                                         handleInputChange={handleInputChange}
                                         value={item}
                                         checked={selectedData.includes(item)}
-                                        id={id2}
+                                        id={id}
                                     />
                                 </ListItem>
                             );

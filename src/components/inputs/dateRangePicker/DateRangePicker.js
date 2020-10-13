@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import React from 'react';
+import styled from 'styled-components';
 import moment from 'moment';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import './bootstrap.css';
@@ -27,13 +27,7 @@ export default function DatePicker({ handleDateChange, startDate, endDate }) {
                 }}
                 onApply={handleDateChange}
             >
-                <input
-                    type="text"
-                    className="form-control"
-                    value={`${startDate} - ${endDate}`}
-                    readOnly={true}
-                />
-
+                <input type="text" className="form-control" readOnly={true} />
             </DateRangePicker>
         </Wrapper>
     );

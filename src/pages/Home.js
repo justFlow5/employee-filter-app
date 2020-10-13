@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import DateRangePicker from '../components/inputs/dateRangePicker/DateRangePicker';
+import DateRangeInput from '../components/inputs/dateRangePicker/DateRangeInput';
 import DisplayButton from '../components/employeeFilterModal/DisplayButton';
 import Header from '../components/employeeFilterModal/Header';
 import ResultView from '../components/employeeFilterModal/ResultView';
 import Select from '../components/employeeFilterModal/Select';
-import TextInput from '../components/inputs/TextField';
 
-import CalendarIcon from '../icons/Calendar';
 import CaretIcon from '../icons/Caret';
 import { arrayEquals } from '../helpers/helpersFunctions';
 import { device } from '../styles/mediaQuery';
@@ -59,30 +57,6 @@ const Modal = styled.div`
     }
     @media ${device.desktop} {
         width: 40%;
-    }
-`;
-
-const DateRangeWrapper = styled.div`
-    position: relative;
-    min-height: 60px;
-    width: 65%;
-
-    @media ${device.mobileL} {
-        width: 50%;
-    }
-
-    & .calendar-icon {
-        width: 25px;
-        height: 25px;
-        position: absolute;
-        top: 10px;
-        left: 15px;
-        z-index: 500;
-        transition: fill 0.4s;
-        fill: ${(props) =>
-            props.isActive
-                ? props.theme.colors.primary
-                : props.theme.colors.secondary};
     }
 `;
 
@@ -213,26 +187,6 @@ function Home({ config }) {
         setFilteredWorkers(selected);
     };
 
-    const [isClickedOutside, setIsClickedOutside] = useState(true);
-    const myRef = useRef();
-
-    const handleClickOutside = (e) => {
-        if (!myRef.current.contains(e.target)) {
-            setIsClickedOutside(true);
-        }
-    };
-    const handleClickInside = () => setIsClickedOutside(false);
-
-    // const checkErrors = () => {
-    //     if
-    // }
-
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () =>
-            document.removeEventListener('mousedown', handleClickOutside);
-    });
-
     useEffect(() => {
         if (selectedWorkers.length > 0 && startDate && endDate)
             setIsAllDataFilled(true);
@@ -271,24 +225,11 @@ function Home({ config }) {
             <ModalContainer>
                 <Modal>
                     <Header title="Wybierz pracowników" />
-                    <DateRangeWrapper
-                        onClick={handleClickInside}
-                        ref={myRef}
-                        isActive={!isClickedOutside}
-                    >
-                        <DateRangePicker
-                            handleDateChange={handleDateChange}
-                            startDate={startDate}
-                            endDate={endDate}
-                        />
-                        <CalendarIcon className={'calendar-icon'} />
-                        <TextInput
-                            selectedData={{ startDate, endDate }}
-                            isTimeInput={true}
-                            clickedOutside={isClickedOutside}
-                            labelText="okres"
-                        />
-                    </DateRangeWrapper>
+                    <DateRangeInput
+                        handleDateChange={handleDateChange}
+                        startDate={startDate}
+                        endDate={endDate}
+                    />
                     <SelectWrapper>
                         <Select
                             items={positionsFilters}
