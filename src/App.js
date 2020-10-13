@@ -90,6 +90,12 @@ const config = {
             lokalizacje: ['Arkady'],
         },
     ],
+
+    positionsFilters: ['kucharz', 'kelner', 'kierownik', 'sprzątaczka'],
+
+    contractTypesFitlers: ['umowa o pracę', 'umowa zlecenie', 'umowa o dzieło'],
+
+    locationsFilters: ['Arkady', 'Magnolia', 'Pasaż Grunwaldzki', 'Wroclavia'],
 };
 
 function App() {

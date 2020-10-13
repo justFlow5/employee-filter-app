@@ -79,7 +79,13 @@ const ErrorText = styled.p`
 `;
 
 function Home({ config }) {
-    const { workers } = config;
+    const {
+        workers,
+        positionsFilters,
+        contractTypesFitlers,
+        locationsFilters,
+    } = config;
+
     const [selectedPositions, setSelectedPositions] = useState([]);
     const [selectedContractTypes, setSelectedContractTypes] = useState([]);
     const [selectedLocations, setSelectedLocations] = useState([]);
@@ -113,21 +119,6 @@ function Home({ config }) {
         'warunki zatrudnienia': [],
         lokalizacje: [],
     });
-
-    const positionsFilters = ['kucharz', 'kelner', 'kierownik', 'sprzątaczka'];
-
-    const contractTypesFitlers = [
-        'umowa o pracę',
-        'umowa zlecenie',
-        'umowa o dzieło',
-    ];
-
-    const locationsFilters = [
-        'Arkady',
-        'Magnolia',
-        'Pasaż Grunwaldzki',
-        'Wroclavia',
-    ];
 
     const selectAll = (e) => {
         const selectAllCheckboxWorkers = e.target.value.split(',');
@@ -277,11 +268,22 @@ function Home({ config }) {
 export default Home;
 
 Home.propTypes = {
-    workers: PropTypes.shape({
-        imie: PropTypes.string.isRequired,
-        nazwisko: PropTypes.string.isRequired,
-        stanowiska: PropTypes.string.isRequired,
-        'warunki zatrudnienia': PropTypes.string.isRequired,
-        lokalizacje: PropTypes.array.isRequired,
+    workers: PropTypes.arrayOf(
+        PropTypes.shape({
+            imie: PropTypes.string,
+            nazwisko: PropTypes.string,
+            stanowiska: PropTypes.string,
+            'warunki zatrudnienia': PropTypes.string,
+            lokalizacje: PropTypes.array,
+        })
+    ).isRequired,
+};
+
+Home.propTypes = {
+    config: PropTypes.shape({
+        workers: PropTypes.array,
+        positionsFilters: PropTypes.array,
+        contractTypesFitlers: PropTypes.array,
+        locationsFilters: PropTypes.array,
     }),
 };
