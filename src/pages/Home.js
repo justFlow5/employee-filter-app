@@ -48,7 +48,7 @@ const Modal = styled.div`
         height: 80%;
     }
     @media ${device.tablet} {
-        width: 40%;
+        width: 45%;
     }
 
     @media ${device.laptop} {
@@ -277,8 +277,8 @@ function Home({ config }) {
 export default Home;
 
 Home.propTypes = {
-    config: PropTypes.shape({
-        name: PropTypes.string.isRequired,
+    workers: PropTypes.shape({
+        imie: PropTypes.string.isRequired,
         nazwisko: PropTypes.string.isRequired,
         stanowiska: PropTypes.string.isRequired,
         'warunki zatrudnienia': PropTypes.string.isRequired,

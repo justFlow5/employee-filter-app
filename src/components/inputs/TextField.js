@@ -139,7 +139,6 @@ const TextField = ({
     }, [clickedOutside, isAllFiltersFilled]);
 
     useEffect(() => {
-        // console.log('seeel data: ', selectedData, ' label ', labelText);
         inputRef.current.value.length > 0
             ? setIsFilled('isFilled')
             : setIsFilled('');
@@ -170,9 +169,9 @@ const TextField = ({
 export default TextField;
 
 TextField.propTypes = {
-    selectedData: PropTypes.array.isRequired,
+    selectedData: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
     clickedOutside: PropTypes.bool.isRequired,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     isTimeInput: PropTypes.bool,
     labelText: PropTypes.string.isRequired,
     selectAll: PropTypes.func,

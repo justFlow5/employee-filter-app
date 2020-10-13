@@ -29,5 +29,5 @@ const CaretIcon = ({ className }) => {
 export default CaretIcon;
 
 CaretIcon.propTypes = {
-    className: PropTypes.string.isRequired,
+    className: PropTypes.string,
 };

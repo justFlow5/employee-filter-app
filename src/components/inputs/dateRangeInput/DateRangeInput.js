@@ -12,7 +12,15 @@ const DateRangeWrapper = styled.div`
     min-height: 60px;
     width: 65%;
 
+    @media ${device.mobileM} {
+        width: 60%;
+    }
+
     @media ${device.mobileL} {
+        width: 62%;
+    }
+
+    @media ${device.laptop} {
         width: 50%;
     }
 
