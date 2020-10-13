@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import moment from 'moment';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
@@ -15,7 +16,7 @@ const Wrapper = styled('div')`
     opacity: 0;
 `;
 
-export default function DatePicker({ handleDateChange, startDate, endDate }) {
+function DatePicker({ handleDateChange, startDate, endDate }) {
     return (
         <Wrapper>
             <DateRangePicker
@@ -32,3 +33,11 @@ export default function DatePicker({ handleDateChange, startDate, endDate }) {
         </Wrapper>
     );
 }
+
+export default DatePicker;
+
+DatePicker.propTypes = {
+    handleDateChange: PropTypes.func.isRequired,
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
+};

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { device } from '../../styles/mediaQuery';
 
@@ -20,3 +21,7 @@ function Header({ title }) {
 }
 
 export default Header;
+
+Header.propTypes = {
+    title: PropTypes.string.isRequired,
+};

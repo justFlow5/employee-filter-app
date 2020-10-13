@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const CaretIcon = ({ className }) => {
     return (
@@ -26,3 +27,7 @@ const CaretIcon = ({ className }) => {
 };
 
 export default CaretIcon;
+
+CaretIcon.propTypes = {
+    className: PropTypes.string.isRequired,
+};

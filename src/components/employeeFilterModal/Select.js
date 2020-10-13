@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -82,7 +83,7 @@ const ListItem = styled('li')`
     }
 `;
 
-export default function Select({
+function Select({
     items,
     updateFilters,
     selectedData,
@@ -169,3 +170,15 @@ export default function Select({
         </DropDownContainer>
     );
 }
+
+export default Select;
+
+Select.propTypes = {
+    items: PropTypes.array.isRequired,
+    updateFilters: PropTypes.func.isRequired,
+    selectedData: PropTypes.array.isRequired,
+    setSelectedData: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired,
+    selectAll: PropTypes.func,
+    isAllFiltersFilled: PropTypes.bool,
+};

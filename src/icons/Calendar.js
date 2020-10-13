@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const CalendarIcon = ({ className }) => {
     return (
@@ -13,3 +14,7 @@ const CalendarIcon = ({ className }) => {
 };
 
 export default CalendarIcon;
+
+CalendarIcon.propTypes = {
+    className: PropTypes.string.isRequired,
+};

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { device } from '../../styles/mediaQuery';
 
@@ -45,3 +46,9 @@ function DisplayButton({ title, isActive, setIsConfirmed }) {
 }
 
 export default DisplayButton;
+
+DisplayButton.propTypes = {
+    title: PropTypes.string.isRequired,
+    isActive: PropTypes.bool,
+    setIsConfirmed: PropTypes.func.isRequired,
+};

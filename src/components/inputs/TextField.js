@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { formatInputValue } from '../../helpers/helpersFunctions';
 import { device } from '../../styles/mediaQuery';
@@ -167,3 +168,13 @@ const TextField = ({
     );
 };
 export default TextField;
+
+TextField.propTypes = {
+    selectedData: PropTypes.array.isRequired,
+    clickedOutside: PropTypes.bool.isRequired,
+    id: PropTypes.string.isRequired,
+    isTimeInput: PropTypes.bool,
+    labelText: PropTypes.string.isRequired,
+    selectAll: PropTypes.func,
+    isAllFiltersFilled: PropTypes.bool,
+};

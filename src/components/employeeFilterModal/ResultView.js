@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { device } from '../../styles/mediaQuery';
 import { formatDate } from '../../helpers/helpersFunctions';
@@ -107,3 +108,10 @@ const ResultModal = ({ timeRange, workers, isConfirmed, setIsConfirmed }) => {
 };
 
 export default ResultModal;
+
+ResultModal.propTypes = {
+    timeRange: PropTypes.object.isRequired,
+    workers: PropTypes.array.isRequired,
+    isConfirmed: PropTypes.bool.isRequired,
+    setIsConfirmed: PropTypes.func.isRequired,
+};

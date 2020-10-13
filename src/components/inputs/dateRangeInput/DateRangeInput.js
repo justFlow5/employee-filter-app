@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import CalendarIcon from '../../../icons/Calendar';
 import DateRangePicker from './DateRangePicker';
@@ -30,11 +31,7 @@ const DateRangeWrapper = styled.div`
     }
 `;
 
-export default function DateRangeInput({
-    handleDateChange,
-    startDate,
-    endDate,
-}) {
+function DateRangeInput({ handleDateChange, startDate, endDate }) {
     const {
         ref,
         isComponentVisible,
@@ -62,3 +59,11 @@ export default function DateRangeInput({
         </DateRangeWrapper>
     );
 }
+
+export default DateRangeInput;
+
+DateRangeInput.propTypes = {
+    handleDateChange: PropTypes.func.isRequired,
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
+};

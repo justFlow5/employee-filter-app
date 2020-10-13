@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import DateRangeInput from '../components/inputs/dateRangeInput/DateRangeInput';
@@ -274,3 +275,13 @@ function Home({ config }) {
 }
 
 export default Home;
+
+Home.propTypes = {
+    config: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        nazwisko: PropTypes.string.isRequired,
+        stanowiska: PropTypes.string.isRequired,
+        'warunki zatrudnienia': PropTypes.string.isRequired,
+        lokalizacje: PropTypes.array.isRequired,
+    }),
+};
