@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import DateRangeInput from '../components/inputs/dateRangePicker/DateRangeInput';
+import DateRangeInput from '../components/inputs/dateRangeInput/DateRangeInput';
 import DisplayButton from '../components/employeeFilterModal/DisplayButton';
 import Header from '../components/employeeFilterModal/Header';
 import ResultView from '../components/employeeFilterModal/ResultView';
 import Select from '../components/employeeFilterModal/Select';
 
-import CaretIcon from '../icons/Caret';
 import { arrayEquals } from '../helpers/helpersFunctions';
 import { device } from '../styles/mediaQuery';
 
@@ -63,18 +62,6 @@ const Modal = styled.div`
 const SelectWrapper = styled.div`
     width: 100%;
     position: relative;
-
-    & > svg {
-        margin-right: 20px;
-        fill: ${(props) => props.theme.colors.black};
-        position: absolute;
-        right: 0;
-        width: 15px;
-        height: 15px;
-        z-index: 2;
-        top: 50%;
-        transform: translateY(-50%);
-    }
 `;
 
 const ButtonWrapper = styled.div`
@@ -230,37 +217,29 @@ function Home({ config }) {
                         startDate={startDate}
                         endDate={endDate}
                     />
-                    <SelectWrapper>
-                        <Select
-                            items={positionsFilters}
-                            type="stanowiska"
-                            updateFilters={updateFilters}
-                            selectedData={selectedPositions}
-                            setSelectedData={setSelectedPositions}
-                        />
-                        <CaretIcon />
-                    </SelectWrapper>
+                    <Select
+                        items={positionsFilters}
+                        type="stanowiska"
+                        updateFilters={updateFilters}
+                        selectedData={selectedPositions}
+                        setSelectedData={setSelectedPositions}
+                    />
+                    <Select
+                        items={contractTypesFitlers}
+                        type="warunki zatrudnienia"
+                        updateFilters={updateFilters}
+                        selectedData={selectedContractTypes}
+                        setSelectedData={setSelectedContractTypes}
+                    />
 
-                    <SelectWrapper>
-                        <Select
-                            items={contractTypesFitlers}
-                            type="warunki zatrudnienia"
-                            updateFilters={updateFilters}
-                            selectedData={selectedContractTypes}
-                            setSelectedData={setSelectedContractTypes}
-                        />
-                        <CaretIcon />
-                    </SelectWrapper>
-                    <SelectWrapper>
-                        <Select
-                            items={locationsFilters}
-                            type="lokalizacje"
-                            updateFilters={updateFilters}
-                            selectedData={selectedLocations}
-                            setSelectedData={setSelectedLocations}
-                        />
-                        <CaretIcon />
-                    </SelectWrapper>
+                    <Select
+                        items={locationsFilters}
+                        type="lokalizacje"
+                        updateFilters={updateFilters}
+                        selectedData={selectedLocations}
+                        setSelectedData={setSelectedLocations}
+                    />
+
                     <SelectWrapper onClick={() => checkFieldsState()}>
                         <Select
                             items={filteredWorkers}
@@ -271,7 +250,6 @@ function Home({ config }) {
                             selectAll={selectAll}
                             isAllFiltersFilled={isAllFiltersFilled}
                         />
-                        <CaretIcon />
                     </SelectWrapper>
                     <ErrorText isShown={isFeedback}>
                         All fields must be filled

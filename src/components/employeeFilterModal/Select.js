@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 
+import CaretIcon from '../../icons/Caret';
 import Checkbox from '../inputs/Checkbox';
 import TextField from '../inputs/TextField';
 import { arrayEquals } from '../../helpers/helpersFunctions';
@@ -11,7 +12,16 @@ const DropDownContainer = styled('div')`
     width: 100%;
     position: relative;
     margin: 5px 0;
-    & ~ svg {
+    & > svg {
+        margin-right: 20px;
+        fill: ${(props) => props.theme.colors.black};
+        position: absolute;
+        right: 0;
+        width: 15px;
+        height: 15px;
+        z-index: 2;
+        top: 50%;
+        transform: translateY(-50%);
         transform: ${(props) =>
             props.open
                 ? `translateY(-50%) rotate(180deg)`
@@ -56,7 +66,7 @@ const DropDownList = styled('ul')`
 const ListItem = styled('li')`
     width: 100%;
     list-style: none;
-    background-color: #fff;
+    background-color: ${(props) => props.theme.colors.bgSecondary};
     border-bottom: 1px solid #e8e8e8;
     height: 40px;
     padding: 15px 0;
@@ -138,23 +148,24 @@ export default function Select({
                 <DropDownListContainer>
                     <DropDownList isReady={items.length > 0}>
                         {renderSelectAllCheckbox()}
-                        {items.map((item) => {
-                            const id = uuidv4();
-                            return (
-                                <ListItem isOpen={!isComponentVisible} key={id}>
-                                    <Checkbox
-                                        label={item}
-                                        handleInputChange={handleInputChange}
-                                        value={item}
-                                        checked={selectedData.includes(item)}
-                                        id={id}
-                                    />
-                                </ListItem>
-                            );
-                        })}
+                        {items.map((item) => (
+                            <ListItem
+                                isOpen={!isComponentVisible}
+                                key={uuidv4()}
+                            >
+                                <Checkbox
+                                    label={item}
+                                    handleInputChange={handleInputChange}
+                                    value={item}
+                                    checked={selectedData.includes(item)}
+                                    id={uuidv4()}
+                                />
+                            </ListItem>
+                        ))}
                     </DropDownList>
                 </DropDownListContainer>
             )}
+            <CaretIcon />
         </DropDownContainer>
     );
 }
