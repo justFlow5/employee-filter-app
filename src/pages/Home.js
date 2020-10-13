@@ -268,18 +268,6 @@ function Home({ config }) {
 export default Home;
 
 Home.propTypes = {
-    workers: PropTypes.arrayOf(
-        PropTypes.shape({
-            imie: PropTypes.string,
-            nazwisko: PropTypes.string,
-            stanowiska: PropTypes.string,
-            'warunki zatrudnienia': PropTypes.string,
-            lokalizacje: PropTypes.array,
-        })
-    ).isRequired,
-};
-
-Home.propTypes = {
     config: PropTypes.shape({
         workers: PropTypes.array,
         positionsFilters: PropTypes.array,
