@@ -127,7 +127,7 @@ const TextField = ({
     const [width, height] = useWindowsSize();
 
     useEffect(() => {
-        if (width < 600) setNumberOfInputs(1);
+        if (width < 1100) setNumberOfInputs(1);
         else if (width < 1900) setNumberOfInputs(2);
         else setNumberOfInputs(3);
     }, [width, height]);

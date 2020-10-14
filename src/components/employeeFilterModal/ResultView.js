@@ -26,7 +26,7 @@ const Modal = styled.div`
     transition: all 0.5s ease-in-out;
 
     @media ${device.laptop} {
-        height: 80%;
+        height: 90%;
         width: 60%;
     }
 `;
@@ -86,13 +86,16 @@ const Back = styled.span`
 `;
 
 const ResultModal = ({ timeRange, workers, isConfirmed, setIsConfirmed }) => {
+    const renderDateRange = () =>
+        `${formatDate(timeRange.startDate, 'DD-MM-YYYY')} — ${formatDate(
+            timeRange.endDate,
+            'DD-MM-YYYY'
+        )}`;
+
     return (
         <Modal isConfirmed={isConfirmed}>
             <Header>wybrani pracownicy</Header>
-            <SubHeader>{`${formatDate(
-                timeRange.startDate,
-                'DD-MM-YYYY'
-            )}/${formatDate(timeRange.endDate, 'DD-MM-YYYY')}`}</SubHeader>
+            <SubHeader>{renderDateRange()}</SubHeader>
             <ul>
                 {workers.map((worker, index) => {
                     return (

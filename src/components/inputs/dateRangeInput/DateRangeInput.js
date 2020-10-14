@@ -10,14 +10,18 @@ import { device } from '../../../styles/mediaQuery';
 const DateRangeWrapper = styled.div`
     position: relative;
     min-height: 60px;
-    width: 65%;
+    width: 100%;
 
     @media ${device.mobileM} {
         width: 60%;
     }
 
     @media ${device.mobileL} {
-        width: 62%;
+        width: 65%;
+    }
+
+    @media (min-width: 600px) {
+        width: 55%;
     }
 
     @media ${device.laptop} {

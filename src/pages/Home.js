@@ -10,8 +10,10 @@ import Select from '../components/employeeFilterModal/Select';
 
 import { arrayEquals } from '../helpers/helpersFunctions';
 import { device } from '../styles/mediaQuery';
+import { hideScroll } from '../styles/sharedStyle';
 
 const ModalContainer = styled.div`
+    ${hideScroll}
     width: 100%;
     height: 100%;
     position: relative;
@@ -23,6 +25,7 @@ const ModalContainer = styled.div`
 `;
 
 const Modal = styled.div`
+    ${hideScroll}
     width: 90%;
     height: 90%;
     position: relative;
@@ -35,6 +38,8 @@ const Modal = styled.div`
     -webkit-box-shadow: 0px 0px 28px -16px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px 0px 28px -16px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 28px -16px rgba(0, 0, 0, 0.75);
+    overflow-y: scroll;
+
     @media ${device.mobileM} {
         height: 95%;
         margin: 0 auto;
@@ -46,14 +51,14 @@ const Modal = styled.div`
     }
 
     @media (min-width: 500px) {
-        width: 55%;
+        width: 70%;
     }
     @media ${device.tablet} {
-        width: 45%;
+        width: 50%;
     }
 
     @media ${device.laptop} {
-        width: 30%;
+        width: 35%;
         padding: 20px;
     }
     @media ${device.desktop} {
@@ -73,7 +78,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const ErrorText = styled.p`
-    font-size: 13px;
+    font-size: 14px;
     color: red;
     text-align: left;
     opacity: ${(props) => (props.isShown ? 1 : 0)};
@@ -175,6 +180,8 @@ function Home({ config }) {
             });
 
         setFilteredWorkers(selected);
+        // Remove data from textfield on single filter removal and followed lack of results
+        if (selected.length === 0) setSelectedWorkers([]);
     };
 
     useEffect(() => {

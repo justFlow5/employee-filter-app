@@ -9,6 +9,7 @@ import TextField from '../inputs/TextField';
 import { arrayEquals } from '../../helpers/helpersFunctions';
 import { useComponentVisible } from '../../customHooks/useComponentVisible';
 import { device } from '../../styles/mediaQuery';
+import { styledScrollbar } from '../../styles/sharedStyle';
 
 const DropDownContainer = styled('div')`
     width: 100%;
@@ -41,35 +42,15 @@ const DropdownInputContainer = styled.div`
 const DropDownListContainer = styled('div')``;
 
 const DropDownList = styled('ul')`
+    ${styledScrollbar}
     position: absolute;
     width: 100%;
     z-index: 100;
-    max-height: 120px;
-
     overflow-y: scroll;
     border: 1px solid #d0d0d0;
     opacity: ${(props) => (props.isReady ? 1 : 0)};
-    bottom: ${(props) => (props.showAtTop ? '100%' : 'unset')};
-    max-height: ${(props) => (props.showAtTop ? '170px' : '120px')};
-
-    @media ${device.laptop} {
-        bottom: unset;
-    }
-
+    max-height: ${(props) => (props.workerList ? '150px' : '120px')};
     transition: opacity 0.3s;
-    &::-webkit-scrollbar {
-        width: 7px;
-    }
-    &::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-    &::-webkit-scrollbar-thumb {
-        background: #d0d0d0;
-        transition: background 0.3s;
-    }
-    &::-webkit-scrollbar-thumb:hover {
-        background: #bebebe;
-    }
 
     @media ${device.laptop} {
         max-height: 120px;
@@ -161,7 +142,7 @@ function Select({
                 <DropDownListContainer>
                     <DropDownList
                         isReady={items.length > 0}
-                        showAtTop={type === 'pracownicy'}
+                        workerList={type === 'pracownicy'}
                     >
                         {renderSelectAllCheckbox()}
                         {items.map((item) => (

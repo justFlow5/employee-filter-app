@@ -27,7 +27,6 @@ function DatePicker({ handleDateChange, startDate, endDate }) {
                     startDate: moment(),
                 }}
                 onApply={handleDateChange}
-                locale={{ format: 'DD/MM/YYYY' }}
             >
                 <input type="text" className="form-control" readOnly={true} />
             </DateRangePicker>
