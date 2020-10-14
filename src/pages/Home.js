@@ -109,6 +109,11 @@ function Home({ config }) {
 
     const [isFeedback, setIsFeedback] = useState(false);
     const [feedbackContent, setFeedbackContent] = useState('');
+    const [selectedFilters, setSelectedFilters] = useState({
+        stanowiska: [],
+        'warunki zatrudnienia': [],
+        lokalizacje: [],
+    });
 
     const checkFieldsState = () => {
         if (!isAllFiltersFilled) {
@@ -129,12 +134,6 @@ function Home({ config }) {
             setEndDate(picker.endDate.toISOString());
         }
     };
-
-    const [selectedFilters, setSelectedFilters] = useState({
-        stanowiska: [],
-        'warunki zatrudnienia': [],
-        lokalizacje: [],
-    });
 
     const selectAll = (e) => {
         const selectAllCheckboxWorkers = e.target.value.split(',');
@@ -180,8 +179,6 @@ function Home({ config }) {
             });
 
         setFilteredWorkers(selected);
-        // Remove data from textfield on single filter removal and followed lack of results
-        if (selected.length === 0) setSelectedWorkers([]);
     };
 
     useEffect(() => {
@@ -191,6 +188,7 @@ function Home({ config }) {
     }, [selectedWorkers, startDate, endDate, isAllDataFilled]);
 
     useEffect(() => {
+        setSelectedWorkers([]); //Refresh pracownicy textfield whenever some filter gets changed
         if (isAllFiltersFilled) setIsFeedback(false);
         if (
             selectedPositions.length > 0 &&

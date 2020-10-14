@@ -92,7 +92,7 @@ function Select({
     } = useComponentVisible(false);
 
     const renderSelectAllCheckbox = () => {
-        if (type === 'pracownicy' && items.length > 0) {
+        if (type === 'pracownicy' && items.length > 1) {
             return (
                 <ListItem className="selectAll">
                     <Checkbox
@@ -126,7 +126,7 @@ function Select({
         <DropDownContainer
             ref={ref}
             onClick={() => setIsComponentVisible(true)}
-            open={isComponentVisible && isFeedback}
+            open={isComponentVisible && !isFeedback}
         >
             <DropdownInputContainer>
                 <TextField
