@@ -8,6 +8,7 @@ import Checkbox from '../inputs/Checkbox';
 import TextField from '../inputs/TextField';
 import { arrayEquals } from '../../helpers/helpersFunctions';
 import { useComponentVisible } from '../../customHooks/useComponentVisible';
+import { device } from '../../styles/mediaQuery';
 
 const DropDownContainer = styled('div')`
     width: 100%;
@@ -43,11 +44,18 @@ const DropDownList = styled('ul')`
     position: absolute;
     width: 100%;
     z-index: 100;
-    max-height: 160px;
+    max-height: 120px;
 
     overflow-y: scroll;
     border: 1px solid #d0d0d0;
     opacity: ${(props) => (props.isReady ? 1 : 0)};
+    bottom: ${(props) => (props.showAtTop ? '100%' : 'unset')};
+    max-height: ${(props) => (props.showAtTop ? '170px' : '120px')};
+
+    @media ${device.laptop} {
+        bottom: unset;
+    }
+
     transition: opacity 0.3s;
     &::-webkit-scrollbar {
         width: 7px;
@@ -61,6 +69,10 @@ const DropDownList = styled('ul')`
     }
     &::-webkit-scrollbar-thumb:hover {
         background: #bebebe;
+    }
+
+    @media ${device.laptop} {
+        max-height: 120px;
     }
 `;
 
@@ -90,7 +102,7 @@ function Select({
     setSelectedData,
     type,
     selectAll,
-    isAllFiltersFilled = true,
+    isFeedback,
 }) {
     const {
         ref,
@@ -133,7 +145,7 @@ function Select({
         <DropDownContainer
             ref={ref}
             onClick={() => setIsComponentVisible(true)}
-            open={isComponentVisible && isAllFiltersFilled}
+            open={isComponentVisible && isFeedback}
         >
             <DropdownInputContainer>
                 <TextField
@@ -141,13 +153,17 @@ function Select({
                     clickedOutside={!isComponentVisible}
                     id={uuidv4()}
                     labelText={type}
+                    isFeedback={isFeedback}
                     isAllFiltersFilled={isAllFiltersFilled}
                 />
             </DropdownInputContainer>
 
             {isComponentVisible && (
                 <DropDownListContainer>
-                    <DropDownList isReady={items.length > 0}>
+                    <DropDownList
+                        isReady={items.length > 0}
+                        showAtTop={type === 'pracownicy'}
+                    >
                         {renderSelectAllCheckbox()}
                         {items.map((item) => (
                             <ListItem
@@ -180,5 +196,5 @@ Select.propTypes = {
     setSelectedData: PropTypes.func.isRequired,
     type: PropTypes.string.isRequired,
     selectAll: PropTypes.func,
-    isAllFiltersFilled: PropTypes.bool,
+    isFeedback: PropTypes.bool,
 };

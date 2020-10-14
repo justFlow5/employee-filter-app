@@ -17,6 +17,9 @@ const ModalContainer = styled.div`
     position: relative;
     overflow: hidden;
     background-color: ${(props) => props.theme.colors.bgPrimary};
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const Modal = styled.div`
@@ -33,19 +36,17 @@ const Modal = styled.div`
     -moz-box-shadow: 0px 0px 28px -16px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 28px -16px rgba(0, 0, 0, 0.75);
     @media ${device.mobileM} {
-        height: 85%;
-        height: 75%;
-        margin: 40px auto;
+        height: 95%;
+        margin: 0 auto;
     }
     @media ${device.mobileL} {
         width: 70%;
-        height: 75%;
-        margin: 70px auto;
+        margin: 30px auto;
+        height: 90%;
     }
 
     @media (min-width: 500px) {
         width: 55%;
-        height: 80%;
     }
     @media ${device.tablet} {
         width: 45%;
@@ -102,11 +103,21 @@ function Home({ config }) {
     const [isConfirmed, setIsConfirmed] = useState(false);
 
     const [isFeedback, setIsFeedback] = useState(false);
+    const [feedbackContent, setFeedbackContent] = useState('');
 
     const checkFieldsState = () => {
-        if (!isAllFiltersFilled) setIsFeedback(true);
-        else setIsFeedback(false);
+        if (!isAllFiltersFilled) {
+            setFeedbackContent('Fill all the fields');
+            setIsFeedback(true);
+            return;
+        } else setIsFeedback(false);
+
+        if (filteredWorkers.length === 0) {
+            setFeedbackContent('No results found');
+            setIsFeedback(true);
+        } else setIsFeedback(false);
     };
+
     const handleDateChange = (e, picker) => {
         if (picker) {
             setStartDate(picker.startDate.toISOString());
@@ -240,11 +251,11 @@ function Home({ config }) {
                             setSelectedData={setSelectedWorkers}
                             type="pracownicy"
                             selectAll={selectAll}
-                            isAllFiltersFilled={isAllFiltersFilled}
+                            isFeedback={isFeedback}
                         />
                     </SelectWrapper>
                     <ErrorText isShown={isFeedback}>
-                        All fields must be filled
+                        {feedbackContent}
                     </ErrorText>
                     <ButtonWrapper>
                         <DisplayButton

@@ -17,7 +17,6 @@ const FormField = styled('div')`
             &::after {
                 border-bottom: 2px solid
                     ${(props) => props.theme.colors.primary};
-
                 transform: scaleX(150);
             }
         }
@@ -119,7 +118,7 @@ const TextField = ({
     id,
     isTimeInput,
     labelText,
-    isAllFiltersFilled = true,
+    isFeedback,
 }) => {
     const [isActive, setIsActive] = useState('');
     const [isFilled, setIsFilled] = useState('');
@@ -134,9 +133,9 @@ const TextField = ({
     }, [width, height]);
 
     useEffect(() => {
-        if (!clickedOutside && isAllFiltersFilled) setIsActive('isActive');
+        if (!clickedOutside && !isFeedback) setIsActive('isActive');
         else setIsActive('');
-    }, [clickedOutside, isAllFiltersFilled]);
+    }, [clickedOutside, isFeedback]);
 
     useEffect(() => {
         inputRef.current.value.length > 0
@@ -175,5 +174,5 @@ TextField.propTypes = {
     isTimeInput: PropTypes.bool,
     labelText: PropTypes.string.isRequired,
     selectAll: PropTypes.func,
-    isAllFiltersFilled: PropTypes.bool,
+    isFeedback: PropTypes.bool,
 };

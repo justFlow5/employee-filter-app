@@ -5,6 +5,7 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
   html {
   height: 100%;
+  font-family: 'Roboto', sans-serif;
 }
   body {
   margin: 0;
