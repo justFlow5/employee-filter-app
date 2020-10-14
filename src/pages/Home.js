@@ -204,7 +204,6 @@ function Home({ config }) {
         } else {
             setIsAllFiltersFilled(false);
             setFilteredWorkers([]);
-            setSelectedWorkers([]);
         }
     }, [
         selectedPositions,
