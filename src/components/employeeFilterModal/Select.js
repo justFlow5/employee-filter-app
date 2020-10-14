@@ -154,7 +154,6 @@ function Select({
                     id={uuidv4()}
                     labelText={type}
                     isFeedback={isFeedback}
-                    isAllFiltersFilled={isAllFiltersFilled}
                 />
             </DropdownInputContainer>
 
